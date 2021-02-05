@@ -1,0 +1,9 @@
+type Query {
+  greeting(id: ID!): [User!]!
+}
+
+type User {
+  id: Float!
+  name: String!
+  surname: String!
+}

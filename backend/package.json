@@ -1,0 +1,47 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "backpack",
+    "build": "backpack build",
+    "start": "node main.js",
+    "prettier": "prettier --write \"./src/**/*.{ts,tsx}\"",
+    "prettier:diff": "prettier --list-different \"./src/**/*.{ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{ts,tsx}\""
+  },
+  "dependencies": {
+    "apollo-datasource": "^0.7.3",
+    "apollo-server-express": "^2.19.2",
+    "core-js": "^3.8.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "graphql": "^15.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.20",
+    "merge-graphql-schemas": "^1.7.8",
+    "source-map-support": "^0.5.19"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.13",
+    "@babel/preset-typescript": "^7.12.13",
+    "@types/cors": "^2.8.9",
+    "@types/express": "^4.17.11",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/lodash": "^4.14.168",
+    "@types/node": "^14.14.25",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
+    "@typescript-eslint/parser": "^4.14.2",
+    "babel-eslint": "^10.1.0",
+    "backpack-core": "^0.8.4",
+    "eslint": "^7.19.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "fork-ts-checker-webpack-plugin": "^6.1.0",
+    "prettier": "^2.2.1",
+    "typescript": "^4.1.3"
+  }
+}

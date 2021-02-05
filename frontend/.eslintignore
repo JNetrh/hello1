@@ -1,0 +1,5 @@
+/config/
+/scripts/
+*.d.ts
+*.test.ts
+/src/setupTests.ts

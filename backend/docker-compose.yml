@@ -2,22 +2,42 @@ version: '3.7'
 
 services:
   api:
-    image: node:13
-    command: bash -c "yarn && yarn dev"
-    restart: always
+    container_name: new-api
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - ${PORT}:${PORT}
-    working_dir: /srv/api
     environment:
       SKIP_AUTH: ${SKIP_AUTH}
       PLAYGROUND: ${PLAYGROUND}
+      BACKEND_DATABASE_URL: ${BACKEND_DATABASE_URL}
     volumes:
-      - .:/srv/api/
+      - .:/srv/backend/
       - './attachments:${ATTACHMENTS_PATH}'
     tmpfs:
       - /usr/local/share/.cache/yarn
     depends_on:
       - db
+    env_file:
+      - .env
+
+    # image: node:13
+    # command: bash -c "yarn && yarn dev"
+    # restart: always
+    # ports:
+    #   - ${PORT}:${PORT}
+    # working_dir: /srv/api
+    # environment:
+    #   SKIP_AUTH: ${SKIP_AUTH}
+    #   PLAYGROUND: ${PLAYGROUND}
+    # volumes:
+    #   - .:/srv/api/
+    #   - './attachments:${ATTACHMENTS_PATH}'
+    # tmpfs:
+    #   - /usr/local/share/.cache/yarn
+    # depends_on:
+    #   - db
 
   db:
     image: mysql:8.0.23

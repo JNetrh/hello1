@@ -71,4 +71,4 @@ COPY --from=builder /srv/backend/app .
 # RUN mv src .
 
 EXPOSE 3001
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "dev" ]

@@ -4,4 +4,5 @@ import { User } from '@prisma/client';
 
 export interface GreetingDataSource {
   getGreeting(id: string): Promise<User | null>;
+  getAllUsers(): Promise<Array<User> | null>;
 }

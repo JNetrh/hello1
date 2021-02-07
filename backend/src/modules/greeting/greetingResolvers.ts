@@ -9,6 +9,7 @@ export default {
       },
       context: Context,
     ) => context.dataSources.greeting.getGreeting(args.id),
+    allUsers: (_: unknown, context: Context) => context.dataSources.greeting.getAllUsers(),
   },
 };
 

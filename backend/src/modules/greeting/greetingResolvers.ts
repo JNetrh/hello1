@@ -11,3 +11,5 @@ export default {
     ) => context.dataSources.greeting.getGreeting(args.id),
   },
 };
+
+// https://notiz.dev/blog/dockerizing-nestjs-with-prisma-and-postgresql#tldr-multi-stage-dockerfile

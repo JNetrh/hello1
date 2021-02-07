@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+  api:
+    image: node:13
+    command: bash -c "yarn && yarn dev"
+    restart: always
+    ports:
+      - ${PORT}:${PORT}
+    working_dir: /srv/api
+    environment:
+      SKIP_AUTH: ${SKIP_AUTH}
+      PLAYGROUND: ${PLAYGROUND}
+    volumes:
+      - .:/srv/api/
+      - './attachments:${ATTACHMENTS_PATH}'
+    tmpfs:
+      - /usr/local/share/.cache/yarn
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0.23
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: hello1
+    ports:
+      - 3306:3306
+    volumes:
+      - data-mysql:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+
+volumes:
+  data-mysql:
+    driver: local
+
+networks:
+  default:

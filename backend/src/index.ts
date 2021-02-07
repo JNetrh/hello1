@@ -8,7 +8,7 @@ import cors from 'cors';
 import express from 'express';
 import jwt from 'jsonwebtoken';
 
-import { JWT_SECRET_KEY } from '../../common/consts';
+import { JWT_SECRET_KEY } from '../common/consts';
 
 import DummyGreetingDataSource from './dataSources/greetingDataSource';
 import resolvers from './resolvers';
@@ -77,4 +77,4 @@ const httpServer = http.createServer(app);
 apolloServer.applyMiddleware({ app });
 apolloServer.installSubscriptionHandlers(httpServer);
 
-httpServer.listen(4000, () => console.log('\n🚀 API listening on port 4000'));
+httpServer.listen(3001, () => console.log('\n🚀 API listening on port 3001'));

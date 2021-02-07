@@ -1,0 +1,34 @@
+
+
+FROM node:13 as builder
+
+ENV CI true
+
+ARG BACKEND_DATABASE_URL
+ENV BACKEND_DATABASE_URL=$DATABASE_URL
+
+COPY . /srv
+WORKDIR /srv/backend
+RUN yarn
+RUN yarn prettier:diff
+RUN yarn lint --max-warnings=0
+RUN yarn build
+RUN cp -r --parents src/modules/**/*.graphql build
+RUN mkdir app \
+  && cp package.json yarn.lock app/ \
+  && cd app \
+  && NODE_ENV=production yarn
+
+
+FROM node:13
+
+ENV NODE_ENV production
+WORKDIR /srv
+
+COPY --from=builder /srv/backend/build .
+COPY --from=builder /srv/backend/app .
+RUN mv src .
+
+EXPOSE 3001
+
+CMD ["yarn", "start"]

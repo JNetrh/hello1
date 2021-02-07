@@ -5,5 +5,5 @@ type Query {
 type User {
   id: Float!
   name: String!
-  surname: String!
+  email: String!
 }

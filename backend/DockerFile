@@ -1,34 +1,74 @@
+FROM node:13 AS builder
 
 
-FROM node:13 as builder
-
-ENV CI true
-
-ARG BACKEND_DATABASE_URL
-ENV BACKEND_DATABASE_URL=$DATABASE_URL
 
 COPY . /srv
 WORKDIR /srv/backend
+COPY package.json yarn.lock ./
+COPY prisma ./prisma/
+COPY prisma ./prisma/app
+COPY prisma ./
+ENV NODE_ENV development
+RUN ls -la
 RUN yarn
-RUN yarn prettier:diff
-RUN yarn lint --max-warnings=0
-RUN yarn build
+COPY . .
+# Generate prisma client, leave out if generating in `postinstall` script
+RUN npx prisma generate
+RUN ls -la
+RUN pwd
+
 RUN cp -r --parents src/modules/**/*.graphql build
 RUN mkdir app \
   && cp package.json yarn.lock app/ \
   && cd app \
   && NODE_ENV=production yarn
 
+RUN yarn build
+
+
+# Create app directory
+# WORKDIR /srv/api
+
+# RUN mkdir app
+# COPY package*.json ./
+# COPY prisma ./prisma/
+# COPY prisma ./prisma/app
+
+# RUN pwd
+# RUN ls -la
+
+# ENV NODE_ENV development
+# RUN yarn
+
+# COPY backend .
+# RUN ls -la
+
+
+# RUN yarn prettier:diff
+# RUN yarn lint --max-warnings=0
+# RUN yarn build
+# RUN cp -r --parents src/modules/**/*.graphql build
+# RUN cp package.json yarn.lock app/ \
+#   cd app \
+#   && NODE_ENV=production yarn
+
+# COPY . .
+
+# RUN yarn build
 
 FROM node:13
 
 ENV NODE_ENV production
 WORKDIR /srv
 
+RUN ls -la
+RUN pwd
+
 COPY --from=builder /srv/backend/build .
+COPY --from=builder /srv/backend/ .
+COPY --from=builder /srv/backend .
 COPY --from=builder /srv/backend/app .
-RUN mv src .
+# RUN mv src .
 
 EXPOSE 3001
-
-CMD ["yarn", "start"]
+CMD [ "yarn", "start" ]

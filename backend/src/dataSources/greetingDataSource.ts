@@ -9,6 +9,7 @@ class DummyGreetingDataSource extends DataSource implements GreetingDataSource {
   prisma = new PrismaClient();
 
   async getGreeting(id: string): Promise<User | null> {
+    console.log('hello');
     const user = await this.prisma.user.findUnique({
       where: {
         id: parseInt(id, 10),

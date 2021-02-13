@@ -1,10 +1,17 @@
-import '../styles/globals.css'
+import '../styles/globals.css';
+import { ApolloProvider } from '@apollo/react-hooks';
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+import withData from '../utils/apollo-client';
+
+function MyApp({ Component, pageProps, apollo }) {
+  return (
+    <ApolloProvider client={apollo}>
+      <Component {...pageProps} />
+    </ApolloProvider>
+  );
 }
 
-export default MyApp
+export default withData(MyApp);
 
 // https://www.prisma.io/blog/how-to-use-create-react-app-with-graphql-apollo-62e574617cff
 // https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch-typescript-mysql

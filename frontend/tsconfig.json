@@ -23,5 +23,8 @@
     "pages",
     "components",
     "../common"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

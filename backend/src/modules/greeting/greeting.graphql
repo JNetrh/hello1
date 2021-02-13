@@ -1,5 +1,5 @@
 type Query {
-  greeting(id: ID!): User!
+  greeting(id: ID!): User
   allUsers: [User!]!
 }
 

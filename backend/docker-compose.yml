@@ -2,44 +2,20 @@ version: '3.7'
 
 services:
   api:
-    container_name: new-api
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: node:14
+    command: bash -c "yarn && yarn dev && ls -la"
+    restart: always
     ports:
       - ${PORT}:${PORT}
-    environment:
-      SKIP_AUTH: ${SKIP_AUTH}
-      PLAYGROUND: ${PLAYGROUND}
-      BACKEND_DATABASE_URL: ${BACKEND_DATABASE_URL}
+    working_dir: /srv/backend/app/
     volumes:
-      - .:/srv/backend/
-      - './attachments:${ATTACHMENTS_PATH}'
+      - .:/srv/backend/app
     tmpfs:
       - /usr/local/share/.cache/yarn
     depends_on:
-      - db
-    env_file:
-      - .env
+      - database
 
-    # image: node:13
-    # command: bash -c "yarn && yarn dev"
-    # restart: always
-    # ports:
-    #   - ${PORT}:${PORT}
-    # working_dir: /srv/api
-    # environment:
-    #   SKIP_AUTH: ${SKIP_AUTH}
-    #   PLAYGROUND: ${PLAYGROUND}
-    # volumes:
-    #   - .:/srv/api/
-    #   - './attachments:${ATTACHMENTS_PATH}'
-    # tmpfs:
-    #   - /usr/local/share/.cache/yarn
-    # depends_on:
-    #   - db
-
-  db:
+  database:
     image: mysql:8.0.23
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: always
@@ -49,7 +25,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - data-mysql:/var/lib/mysql
+      - db_vol:/var/lib/mysql
 
   adminer:
     image: adminer
@@ -57,11 +33,8 @@ services:
     ports:
       - 8080:8080
     environment:
-      ADMINER_DEFAULT_SERVER: db
+      ADMINER_DEFAULT_SERVER: database
 
 volumes:
-  data-mysql:
+  db_vol:
     driver: local
-
-networks:
-  default:

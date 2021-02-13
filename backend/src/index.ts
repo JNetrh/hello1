@@ -77,4 +77,4 @@ const httpServer = http.createServer(app);
 apolloServer.applyMiddleware({ app });
 apolloServer.installSubscriptionHandlers(httpServer);
 
-httpServer.listen(3001, () => console.log('\n🚀 API listening on port 3001'));
+httpServer.listen(4000, () => console.log('\n🚀 API listening on port 4000'));
